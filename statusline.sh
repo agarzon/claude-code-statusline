@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude Code statusline — Starship-inspired single line (portable)
+# Claude Code statusline ΓÇö Starship-inspired single line (portable)
 set -f  # disable globbing
 
 input=$(cat)
@@ -8,7 +8,7 @@ if [ -z "$input" ]; then
     exit 0
 fi
 
-# ── Extract all fields in a single jq call ──────────────────────────
+# ΓöÇΓöÇ Extract all fields in a single jq call ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 IFS=$'\x1f' read -r MODEL CWD PCT COST DURATION_MS LINES_ADD LINES_DEL VERSION \
     CTX_SIZE CURRENT_TOK EFFORT_LEVEL FIVE_PCT FIVE_RESET SEVEN_PCT SEVEN_RESET \
     SESSION_NAME WORKTREE_NAME AGENT_NAME THINKING < <(
@@ -32,10 +32,10 @@ IFS=$'\x1f' read -r MODEL CWD PCT COST DURATION_MS LINES_ADD LINES_DEL VERSION \
     (.worktree.name // ""),
     (.agent.name // ""),
     (.thinking.enabled // false)
-  ] | join("")'
+  ] | join("\u001f")'
 )
 
-# ── Colors (bright-black instead of DIM for WSL compat) ─────────────
+# ΓöÇΓöÇ Colors (bright-black instead of DIM for WSL compat) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 BOLD='\033[1m'
 DIM='\033[90m'
 RESET='\033[0m'
@@ -48,10 +48,10 @@ MAGENTA='\033[35m'
 BLUE='\033[34m'
 WHITE='\033[37m'
 
-# ── Symbols (Nerd Font) ─────────────────────────────────────────────
-SEP="${DIM}│${RESET}"
+# ΓöÇΓöÇ Symbols (Nerd Font) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+SEP="${DIM}Γöé${RESET}"
 
-# ── Helpers ──────────────────────────────────────────────────────────
+# ΓöÇΓöÇ Helpers ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 format_tokens() {
     local n=$1
     if [ "$n" -ge 1000000 ]; then
@@ -82,10 +82,10 @@ format_reset() {
     esac
 }
 
-# ── Folder ───────────────────────────────────────────────────────────
+# ΓöÇΓöÇ Folder ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 FOLDER=$(basename "$CWD" 2>/dev/null || echo "?")
 
-# ── Git ──────────────────────────────────────────────────────────────
+# ΓöÇΓöÇ Git ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 BRANCH=""
 GIT_DIRTY=""
 if git -C "$CWD" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
@@ -96,30 +96,30 @@ if git -C "$CWD" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     fi
 fi
 
-# ── Duration ─────────────────────────────────────────────────────────
+# ΓöÇΓöÇ Duration ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 DURATION_SEC=$((DURATION_MS / 1000))
 MINS=$((DURATION_SEC / 60))
 SECS=$((DURATION_SEC % 60))
 if [ "$MINS" -gt 0 ]; then TIME_FMT="${MINS}m${SECS}s"
 else TIME_FMT="${SECS}s"; fi
 
-# ── Cost ─────────────────────────────────────────────────────────────
+# ΓöÇΓöÇ Cost ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 COST_FMT=$(printf '$%.2f' "$COST")
 
-# ── Token counts ─────────────────────────────────────────────────────
+# ΓöÇΓöÇ Token counts ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 USED_FMT=$(format_tokens "$CURRENT_TOK")
 TOTAL_FMT=$(format_tokens "$CTX_SIZE")
 
-# ── Context bar (8-wide) ────────────────────────────────────────────
+# ΓöÇΓöÇ Context bar (8-wide) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 BAR_WIDTH=8
 FILLED=$((PCT * BAR_WIDTH / 100))
 EMPTY=$((BAR_WIDTH - FILLED))
 BAR_COLOR=$(usage_color "$PCT")
 BAR=""
-for ((i=0; i<FILLED; i++)); do BAR+="▓"; done
-for ((i=0; i<EMPTY;  i++)); do BAR+="░"; done
+for ((i=0; i<FILLED; i++)); do BAR+="Γûô"; done
+for ((i=0; i<EMPTY;  i++)); do BAR+="Γûæ"; done
 
-# ── Effort level ─────────────────────────────────────────────────────
+# ΓöÇΓöÇ Effort level ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 EFFORT="${EFFORT_LEVEL:-medium}"
 case "$EFFORT" in
     low)    EFFORT_FMT="${DIM}lo${RESET}" ;;
@@ -131,7 +131,7 @@ esac
 # Extended thinking marker
 [ "$THINKING" = "true" ] && EFFORT_FMT="${EFFORT_FMT}${YELLOW}*${RESET}"
 
-# ── Build lines ──────────────────────────────────────────────────────
+# ΓöÇΓöÇ Build lines ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 # Line 1: identity / context (session, git, agent, model, folder)
 # Line 2: live metrics (tokens, effort, cost, time, rate limits)
 L1=""
@@ -144,7 +144,7 @@ L2=""
 
 # Git segment
 if [ -n "$BRANCH" ]; then
-    L1+="${GREEN}⌲${RESET} ${CYAN}${BOLD}${BRANCH}${RESET}"
+    L1+="${GREEN}Γî▓${RESET} ${CYAN}${BOLD}${BRANCH}${RESET}"
     [ -n "$GIT_DIRTY" ] && L1+="${YELLOW}!${RESET}"
     [ -n "$WORKTREE_NAME" ] && L1+=" ${DIM}(${WORKTREE_NAME})${RESET}"
     if [ "$LINES_ADD" -gt 0 ] || [ "$LINES_DEL" -gt 0 ]; then
